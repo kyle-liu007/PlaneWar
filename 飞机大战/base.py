@@ -5,7 +5,7 @@ from settings import CanvasSettings
 canvas_settings = CanvasSettings()
 
 class Base():
-    def __init__(self,root,canvas,queue, path, lives, tags):
+    def __init__(self,root,canvas,queue, lives, tags):
         self.root = root
         self.canvas = canvas
         # 对象的生命值
@@ -14,21 +14,19 @@ class Base():
         self.tags = tags
         # 传递消息的队列
         self.queue = queue
-        # 图片的路径
-        self.path = path
-        # 敌军的队列
-        self.enemy = []
 
     # 创建图片
-    def create_image(self, x, y):
-        img = tkinter.PhotoImage(file = self.path)
-        self.canvas.create_image(x, y, anchor=tkinter.CENTER, image = img, tags=self.tags)
-        if 'enemy' in self.tags:
-            self.enemy.append(self.tags)
+    # def create_image(self, x, y):
+    #     img = tkinter.PhotoImage(file = self.path)
+    #     self.canvas.create_image(x, y, image = img, tags=self.tags)
+
+    # 获取图片
+    def get_image(self, image):
+        self.image = image
 
     # 将自己的对角坐标放入队列中
-    def put_pos(self, NW_x, NW_y, SE_x, SE_y):
-        self.queue.put({(self.tags + '_pos'):(NW_x,NW_y,SE_x,SE_y)})
+    # def put_pos(self, NW_x, NW_y, SE_x, SE_y):
+    #     self.queue.put({(self.tags + '_pos'):(NW_x,NW_y,SE_x,SE_y)})
 
     # 更新自己的血量，同时检测血量是否为0
     def update_lives(self):
@@ -45,7 +43,6 @@ class Base():
     # 删除血量为0的图像,若hero血量为0，则结束游戏，若敌军血量为0，则释放加分的信号
     def delete(self):
         if "enemy" in self.tags:
-            self.enemy.remove(self.tags)
             self.queue.put({"if_score":(True, self.tags)})
         else:
             self.canvas.delete(self.tags)

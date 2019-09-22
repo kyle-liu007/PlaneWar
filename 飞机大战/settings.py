@@ -6,12 +6,16 @@ class CanvasSettings():
         self.canvas_width = 480
         self.canvas_height = 852 #画面的大小根据背景图的大小来设置
 
+class StartCanvasSettings():
+    def __init__(self):
+        self.path = ".\\image\\start.png"
+
 class OverCanvasSettings():
     def __init__(self):
         # 结束画面
         self.canvas_width = 400
         self.canvas_height = 654
-        self.canvas_path = ".\\iamge\\gameover.gif"
+        self.canvas_path = ".\\image\\gameover.gif"
 
 class BackgroundSettings():
     def __init__(self):

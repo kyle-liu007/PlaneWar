@@ -1,3 +1,4 @@
+import tkinter
 from settings import HeroSettings,CanvasSettings
 from base import Base
 from bullet import Bullet
@@ -7,21 +8,23 @@ settings_canvas = CanvasSettings()
 
 class Hero(Base):
     def __init__(self, root, canvas, queue, tags):
-        super(Hero, self).__init__(root, canvas, queue, settings_hero.hero_path,
-                                   settings_hero.hero_lives, tags)
+        super(Hero, self).__init__(root, canvas, queue,settings_hero.hero_lives, tags)
         self.direction = (0, 0)
         self.count = 0
-        self.score = 0
         self.bullets = []
         self.hero_xpos = settings_canvas.canvas_width // 2
         self.hero_ypos = settings_canvas.canvas_height - (settings_hero.hero_height / 2)
-        self.create_image(self.hero_xpos, self.hero_ypos)
-        self.put_pos(
-            (self.hero_xpos - settings_hero.hero_width / 2),
-            (self.hero_ypos - settings_hero.hero_height / 2),
-            (self.hero_xpos + settings_hero.hero_width / 2),
-            (self.hero_ypos + settings_hero.hero_height / 2)
-        )
+        # self.create_image(self.hero_xpos, self.hero_ypos)
+        # self.put_pos(
+        #     (self.hero_xpos - settings_hero.hero_width / 2),
+        #     (self.hero_ypos - settings_hero.hero_height / 2),
+        #     (self.hero_xpos + settings_hero.hero_width / 2),
+        #     (self.hero_ypos + settings_hero.hero_height / 2)
+        # )
+        self.NW_xpos = self.hero_xpos - settings_hero.hero_width / 2
+        self.NW_ypos = self.hero_ypos - settings_hero.hero_height / 2
+        self.SE_xpos = self.hero_xpos + settings_hero.hero_width / 2
+        self.SE_ypos = self.hero_ypos + settings_hero.hero_height / 2
         self.root.bind('<KeyPress-Left>', self.key_press)
         self.root.bind('<KeyPress-Up>', self.key_press)
         self.root.bind('<KeyPress-Down>', self.key_press)
@@ -36,15 +39,14 @@ class Hero(Base):
             y = 0
         xspeed = self.speed * x
         yspeed = self.speed * y
-        self.canvas.move(self.tags, xspeed, yspeed)
+        self.canvas.move(self.image, xspeed, yspeed)
         self.hero_xpos += xspeed
         self.hero_ypos += yspeed
-        self.put_pos(
-            (self.hero_xpos - settings_hero.hero_width / 2),
-            (self.hero_ypos - settings_hero.hero_height / 2),
-            (self.hero_xpos + settings_hero.hero_width / 2),
-            (self.hero_ypos + settings_hero.hero_height / 2)
-        )
+        self.NW_xpos = self.hero_xpos - settings_hero.hero_width / 2
+        self.NW_ypos = self.hero_ypos - settings_hero.hero_height / 2
+        self.SE_xpos = self.hero_xpos + settings_hero.hero_width / 2
+        self.SE_ypos = self.hero_ypos + settings_hero.hero_height / 2
+
 
     def key_press(self, event):
         code = event.keycode

@@ -1,7 +1,6 @@
 import tkinter
 from tkinter import font
 import time
-import war
 from settings import PlayImageSettings, OverCanvasSettings
 
 settings_playimage = PlayImageSettings()
@@ -15,31 +14,36 @@ class QueueHandler():
         self.score = 0
 
     def handle(self):
-        task = self.queue.get(block = False)
-        # 处理播放死亡动画的信号
-        try:
-            i, t = task.get("if_play")
-        except self.queue.empty:
+        try :
+            task = self.queue.get(block = False)
+        except Exception:
             pass
         else:
-            if i:
-                self.play(t)
-        try:
-            i, t = task.get('if_score')
-        except self.queue.empty:
-            pass
-        else:
-            if i:
-                self.scoring(t)
-        try:
-            i = task.get("if_show_over_canvas")
-        except self.queue.empty:
-            pass
-        else:
-            self.show_over_canvas()
+            # 处理播放死亡动画的信号
+            try:
+                i, t = task.get("if_play")
+            except Exception:
+                pass
+            else:
+                if i:
+                    self.play(t)
+            try:
+                i, t = task.get('if_score')
+            except Exception:
+                pass
+            else:
+                if i:
+                    self.scoring(t)
+            try:
+                i = task.get("if_show_over_canvas")
+            except Exception:
+                pass
+            else:
+                self.show_over_canvas()
 
     def play(self, t):
         if "enemy_1" in t:
+            print(self.canvas.coords(t))
             x = self.canvas.coords(t)[0]
             y = self.canvas.coords(t)[1]
             self.canvas.delete(t)
@@ -103,9 +107,7 @@ class QueueHandler():
         over_canvas.create_text(200, 350, text= str(self.score)+"分", fill = 'green', font=f)
         def quit_game():
             self.root.destroy()
-        def retry():
-            war.main()
-        b1 = tkinter.Button(over_canvas, text='retry', background='green', width=20)
-        b1.place(x=100, y=400)
+        # b1 = tkinter.Button(over_canvas, text='retry', background='green', width=20)
+        # b1.place(x=100, y=400)
         b2 = tkinter.Button(over_canvas, text='quit', width = 20)
         b2.place(x=100, y=450)
