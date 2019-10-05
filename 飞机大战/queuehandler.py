@@ -20,13 +20,13 @@ class QueueHandler():
             pass
         else:
             # 处理播放死亡动画的信号
-            try:
-                i, t = task.get("if_play")
-            except Exception:
-                pass
-            else:
-                if i:
-                    self.play(t)
+            # try:
+            #     i, t = task.get("if_play")
+            # except Exception:
+            #     pass
+            # else:
+            #     if i:
+            #         self.play(t)
             try:
                 i, t = task.get('if_score')
             except Exception:
@@ -39,46 +39,47 @@ class QueueHandler():
             except Exception:
                 pass
             else:
-                self.show_over_canvas()
+                if i:
+                    self.show_over_canvas()
 
-    def play(self, t):
-        if "enemy_1" in t:
-            print(self.canvas.coords(t))
-            x = self.canvas.coords(t)[0]
-            y = self.canvas.coords(t)[1]
-            self.canvas.delete(t)
-            for p in settings_playimage.enemy_1_down_image_list:
-                enemy_1_down = tkinter.PhotoImage(file = p)
-                self.canvas.create_image(x, y, anchor = tkinter.CENTER, image = enemy_1_down,
-                                         tags = "enemy1_down")
-                self.canvas.delete("enemy1_down")
-        elif "enemy_2" in t:
-            x = self.canvas.coords(t)[0]
-            y = self.canvas.coors(t)[1]
-            self.canvas.delete(t)
-            for p in settings_playimage.enemy_2_down_image_list:
-                enemy_2_down = tkinter.PhotoImage(file = p)
-                self.canvas.create_image(x, y, anchor = tkinter.CENTER, image = enemy_2_down,
-                                         tags = "enemy2_down")
-                self.canvas.delete("enemy2_down")
-        elif "enemy_3" in t:
-            x = self.canvas.coords(t)[0]
-            y = self.canvas.coors(t)[1]
-            self.canvas.delete(t)
-            for p in settings_playimage.enemy_3_down_image_list:
-                enemy_3_down = tkinter.PhotoImage(file = p)
-                self.canvas.create_image(x, y, anchor = tkinter.CENTER, image = enemy_3_down,
-                                         tags = "enemy3_down")
-                self.canvas.delete("enemy3_down")
-        else:
-            x = self.canvas.coords(t)[0]
-            y = self.canvas.coors(t)[1]
-            self.canvas.delete(t)
-            for p in settings_playimage.hero_blowup_list:
-                hero_blowup = tkinter.PhotoImage(file = p)
-                self.canvas.create_image(x, y, anchor = tkinter.CENTER, image = hero_blowup,
-                                         tags = "hero_blowup")
-                self.canvas.delete("hero_blowup")
+    # def play(self, t):
+    #     if "enemy_1" in t:
+    #         print(self.canvas.coords(t))
+    #         x = self.canvas.coords(t)[0]
+    #         y = self.canvas.coords(t)[1]
+    #         self.canvas.delete(t)
+            # for p in settings_playimage.enemy_1_down_image_list:
+            #     enemy_1_down = tkinter.PhotoImage(file = p)
+            #     self.canvas.create_image(x, y, anchor = tkinter.CENTER, image = enemy_1_down,
+            #                              tags = "enemy1_down")
+            #     self.canvas.delete("enemy1_down")
+        # elif "enemy_2" in t:
+        #     x = self.canvas.coords(t)[0]
+        #     y = self.canvas.coors(t)[1]
+        #     self.canvas.delete(t)
+            # for p in settings_playimage.enemy_2_down_image_list:
+            #     enemy_2_down = tkinter.PhotoImage(file = p)
+            #     self.canvas.create_image(x, y, anchor = tkinter.CENTER, image = enemy_2_down,
+            #                              tags = "enemy2_down")
+            #     self.canvas.delete("enemy2_down")
+        # elif "enemy_3" in t:
+        #     x = self.canvas.coords(t)[0]
+        #     y = self.canvas.coors(t)[1]
+        #     self.canvas.delete(t)
+            # for p in settings_playimage.enemy_3_down_image_list:
+            #     enemy_3_down = tkinter.PhotoImage(file = p)
+            #     self.canvas.create_image(x, y, anchor = tkinter.CENTER, image = enemy_3_down,
+            #                              tags = "enemy3_down")
+            #     self.canvas.delete("enemy3_down")
+        # else:
+        #     x = self.canvas.coords(t)[0]
+        #     y = self.canvas.coors(t)[1]
+        #     self.canvas.delete(t)
+            # for p in settings_playimage.hero_blowup_list:
+            #     hero_blowup = tkinter.PhotoImage(file = p)
+            #     self.canvas.create_image(x, y, anchor = tkinter.CENTER, image = hero_blowup,
+            #                              tags = "hero_blowup")
+            #     self.canvas.delete("hero_blowup")
 
     def scoring(self, t):
         if "enemy_1" in t:
@@ -91,6 +92,7 @@ class QueueHandler():
             self.score += 3
 
     def show_over_canvas(self):
+        self.canvas.destroy()
         over_canvas = tkinter.Canvas(self.root, width = settings_overcanvas.canvas_width,
                                      height = settings_overcanvas.canvas_height)
         img = tkinter.PhotoImage(file = settings_overcanvas.canvas_path)
@@ -109,5 +111,6 @@ class QueueHandler():
             self.root.destroy()
         # b1 = tkinter.Button(over_canvas, text='retry', background='green', width=20)
         # b1.place(x=100, y=400)
-        b2 = tkinter.Button(over_canvas, text='quit', width = 20)
+        b2 = tkinter.Button(over_canvas, text='quit', width = 20, command = quit_game)
         b2.place(x=100, y=450)
+        over_canvas.pack()

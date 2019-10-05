@@ -1,4 +1,5 @@
 import random
+import tkinter
 from base import Base
 from settings import CanvasSettings,EnemyOneSettings,EnemyTwoSettings,EnemyThreeSettings
 
@@ -13,6 +14,7 @@ class Enemy_1(Base):
         self.xpos = random.randint(settings_one.enemy_1_width//2,
                                        (settings_canvas.canvas_width - settings_one.enemy_1_width//2))
         self.ypos = -(settings_one.enemy_1_height//2)
+        self.bg_image = tkinter.PhotoImage(file = settings_one.enemy_1_path)
         self.speed = settings_one.enemy_1_speed
         self.NW_xpos = self.xpos - settings_one.enemy_1_width//2
         self.NW_ypos = self.ypos - settings_one.enemy_1_height//2
@@ -34,6 +36,7 @@ class Enemy_2(Base):
         self.xpos = random.randint(settings_two.enemy_2_width // 2,
                                        (settings_canvas.canvas_width - settings_two.enemy_2_width // 2))
         self.ypos = -(settings_two.enemy_2_height // 2)
+        self.bg_image = tkinter.PhotoImage(file=settings_two.enemy_2_path)
         self.speed = settings_two.enemy_2_speed
         self.NW_xpos = self.xpos - settings_two.enemy_2_width // 2
         self.NW_ypos = self.ypos - settings_two.enemy_2_height // 2
@@ -54,6 +57,7 @@ class Enemy_3(Base):
         self.xpos = random.randint(settings_three.enemy_3_width // 2,
                                        (settings_canvas.canvas_width - settings_three.enemy_3_width // 2))
         self.ypos = -(settings_three.enemy_3_height // 2)
+        self.bg_image = tkinter.PhotoImage(file=settings_three.enemy_3_path)
         self.speed = settings_three.enemy_3_speed
         self.NW_xpos = self.xpos - settings_three.enemy_3_width // 2
         self.NW_ypos = self.ypos - settings_three.enemy_3_height // 2

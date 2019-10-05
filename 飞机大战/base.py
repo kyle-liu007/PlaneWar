@@ -1,5 +1,3 @@
-import tkinter
-from tkinter import font
 from settings import CanvasSettings
 
 canvas_settings = CanvasSettings()
@@ -37,20 +35,20 @@ class Base():
     def living_test(self):
         if self.lives == 0:
             self.if_paly = True
-            self.queue.put({"if_play":(self.if_paly, self.tags)})
             self.delete()
 
     # 删除血量为0的图像,若hero血量为0，则结束游戏，若敌军血量为0，则释放加分的信号
     def delete(self):
         if "enemy" in self.tags:
             self.queue.put({"if_score":(True, self.tags)})
+            self.canvas.delete(self.tags)
         else:
             self.canvas.delete(self.tags)
             self.game_over()
 
     # 英雄的血量为0时，结束游戏, 释放显示结束画面的消息
     def game_over(self):
-        self.canvas.destroy()
+        # self.canvas.destroy()
         self.show_over_canvas()
 
     # 释放结束画面的显示的消息
